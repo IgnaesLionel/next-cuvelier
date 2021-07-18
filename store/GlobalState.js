@@ -1,6 +1,6 @@
 import { createContext, useReducer, useEffect } from "react";
 import reducers from "./Reducers";
-/* import { getData } from "../utils/fetchData"; */
+import { getData } from "../utils/fetchData";
 
 export const DataContext = createContext();
 
@@ -16,9 +16,9 @@ export const DataProvider = ({ children }) => {
   };
 
   const [state, dispatch] = useReducer(reducers, initialState);
-  /*   const { cart, auth } = state;
-   */
-  /*   useEffect(() => {
+  const { cart, auth } = state;
+  /* 
+  useEffect(() => {
     const firstLogin = localStorage.getItem("firstLogin");
     if (firstLogin) {
       getData("auth/accessToken").then((res) => {

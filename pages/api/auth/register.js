@@ -15,16 +15,16 @@ const handleRequest = async (req, res) => {
 
 const register = async (req, res) => {
   try {
-    const { name, lastname, email, password, cf_password } = req.body;
+    const { name, lastname, email, password, controlPassword } = req.body;
 
     // check si il y'as une erreur
-    const errMsg = valid(name, email, password, cf_password);
+    const errMsg = valid(name, lastname, email, password, controlPassword);
     if (errMsg) return res.status(400).json({ err: errMsg });
 
     // Confirmation !Doublon
     const user = await Users.findOne({ email });
     if (user)
-      return res.status(400).json({ err: "This email already exists." });
+      return res.status(400).json({ err: "cette email est déja enregistré." });
 
     const passwordHash = await bcrypt.hash(password, 12);
 
@@ -34,11 +34,11 @@ const register = async (req, res) => {
       lastname,
       email,
       password: passwordHash,
-      cf_password,
+      controlPassword,
     });
 
     await newUser.save();
-    res.json({ msg: "Register Success!" });
+    res.json({ msg: "Enregistrement réussi !" });
   } catch (err) {
     return res.status(500).json({ err: err.message });
   }

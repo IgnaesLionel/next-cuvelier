@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState, useContext, useEffect, useRef } from "react";
 import valid from "../utils/valid";
 import { DataContext } from "../store/GlobalState";
+import { postData } from "../utils/fetchData";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -23,12 +24,18 @@ const Register = () => {
 
   const { state, dispatch } = useContext(DataContext);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const errMsg = valid(name, lastname, email, password, controlPassword);
-    if (errMsg) {
-      return dispatch({ type: "NOTIFY", payload: { error: errMsg } });
-    }
+    if (errMsg) return dispatch({ type: "NOTIFY", payload: { error: errMsg } });
+
+    dispatch({ type: "NOTIFY", payload: { loading: true } });
+
+    const res = await postData("auth/register", dataToSend);
+    if (res.err)
+      return dispatch({ type: "NOTIFY", payload: { error: res.err } });
+    return dispatch({ type: "NOTIFY", payload: { success: res.msg } });
+    console.log(res);
   };
 
   return (
