@@ -4,6 +4,7 @@ import { Form, Button } from "react-bootstrap";
 import Link from "next/link";
 import { useState, useContext, useEffect, useRef } from "react";
 import valid from "../utils/valid";
+import { DataContext } from "../store/GlobalState";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -20,11 +21,13 @@ const Register = () => {
 
   const dataToSend = { name, lastname, email, password, controlPassword };
 
+  const { state, dispatch } = useContext(DataContext);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const errMsg = valid(name, lastname, email, password, controlPassword);
     if (errMsg) {
-      console.log(errMsg);
+      return dispatch({ type: "NOTIFY", payload: { error: errMsg } });
     }
   };
 

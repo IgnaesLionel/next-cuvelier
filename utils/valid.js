@@ -1,4 +1,4 @@
-const valid = (name, lastname, email, password, cf_password) => {
+const valid = (name, lastname, email, password, controlPassword) => {
   if (!name || !email || !password || !lastname)
     return "Remplissez tout les champs requis.";
 
@@ -7,7 +7,7 @@ const valid = (name, lastname, email, password, cf_password) => {
   if (password.length < 6)
     return "Le mot de passe doit contenir au moins 6 caractères.";
 
-  if (password !== cf_password) return "Mot de passe incorrect.";
+  if (password !== controlPassword) return "Mot de passe incorrect.";
 };
 
 function validateEmail(email) {

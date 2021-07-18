@@ -1,16 +1,16 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/globals.css";
 import Layout from "../components/Layout";
-import Head from "next/head";
+
+import { DataProvider } from "../store/GlobalState";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <>
-      <Head></Head>
+    <DataProvider>
       <Layout>
         <Component {...pageProps} />
       </Layout>
-    </>
+    </DataProvider>
   );
 }
 

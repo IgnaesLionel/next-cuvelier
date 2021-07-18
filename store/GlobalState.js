@@ -1,6 +1,6 @@
 import { createContext, useReducer, useEffect } from "react";
 import reducers from "./Reducers";
-import { getData } from "../utils/fetchData";
+/* import { getData } from "../utils/fetchData"; */
 
 export const DataContext = createContext();
 
@@ -16,9 +16,9 @@ export const DataProvider = ({ children }) => {
   };
 
   const [state, dispatch] = useReducer(reducers, initialState);
-  const { cart, auth } = state;
-
-  useEffect(() => {
+  /*   const { cart, auth } = state;
+   */
+  /*   useEffect(() => {
     const firstLogin = localStorage.getItem("firstLogin");
     if (firstLogin) {
       getData("auth/accessToken").then((res) => {
@@ -42,9 +42,9 @@ export const DataProvider = ({ children }) => {
         payload: res.categories,
       });
     });
-  }, []);
+  }, []); */
 
-  useEffect(() => {
+  /*   useEffect(() => {
     const __next__cart01__devat = JSON.parse(
       localStorage.getItem("__next__cart01__devat")
     );
@@ -56,8 +56,8 @@ export const DataProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem("__next__cart01__devat", JSON.stringify(cart));
   }, [cart]);
-
-  useEffect(() => {
+ */
+  /*   useEffect(() => {
     if (auth.token) {
       getData("order", auth.token).then((res) => {
         if (res.err)
@@ -79,7 +79,7 @@ export const DataProvider = ({ children }) => {
       dispatch({ type: "ADD_USERS", payload: [] });
     }
   }, [auth.token]);
-
+ */
   return (
     <DataContext.Provider value={{ state, dispatch }}>
       {children}

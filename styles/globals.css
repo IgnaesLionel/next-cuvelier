@@ -18,3 +18,11 @@ a {
 .menu-icons {
   color: rgb(0, 119, 255);
 }
+
+.toasted {
+  top: 55px;
+  right: 15px;
+  position: absolute;
+  min-width: 280px;
+  z-index: 9;
+}
