@@ -17,7 +17,7 @@ export const DataProvider = ({ children }) => {
 
   const [state, dispatch] = useReducer(reducers, initialState);
   const { cart, auth } = state;
-  /* 
+
   useEffect(() => {
     const firstLogin = localStorage.getItem("firstLogin");
     if (firstLogin) {
@@ -42,8 +42,7 @@ export const DataProvider = ({ children }) => {
         payload: res.categories,
       });
     });
-  }, []); */
-
+  }, []);
   /*   useEffect(() => {
     const __next__cart01__devat = JSON.parse(
       localStorage.getItem("__next__cart01__devat")

@@ -1,41 +1,52 @@
 import React from "react";
 import Head from "next/head";
-import { Form, Button } from "react-bootstrap";
 import Link from "next/link";
 import { useState, useContext, useEffect, useRef } from "react";
+import { useRouter } from "next/router";
+import { Form, Button } from "react-bootstrap";
 import valid from "../utils/valid";
 import { DataContext } from "../store/GlobalState";
 import { postData } from "../utils/fetchData";
 
 const Register = () => {
+  // Data from input
   const [name, setName] = useState("");
   const [lastname, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [controlPassword, setControlPassword] = useState("");
-
   const nameInput = useRef(null);
   const lastNameInput = useRef(null);
   const emailInput = useRef(null);
   const passwordInput = useRef(null);
   const controlPasswordInput = useRef(null);
-
   const dataToSend = { name, lastname, email, password, controlPassword };
 
+  //Routing
+  const router = useRouter();
+
+  useEffect(() => {
+    if (Object.keys(auth).length !== 0) router.push("/");
+  }, [auth]);
+
+  //context & actions reducers
   const { state, dispatch } = useContext(DataContext);
+  const { auth } = state;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const errMsg = valid(name, lastname, email, password, controlPassword);
+    //error to notify -> Toast
     if (errMsg) return dispatch({ type: "NOTIFY", payload: { error: errMsg } });
 
     dispatch({ type: "NOTIFY", payload: { loading: true } });
 
     const res = await postData("auth/register", dataToSend);
     if (res.err)
+      //error to notify -> Toast
       return dispatch({ type: "NOTIFY", payload: { error: res.err } });
+    //success to notify -> Toast
     return dispatch({ type: "NOTIFY", payload: { success: res.msg } });
-    console.log(res);
   };
 
   return (
@@ -106,12 +117,8 @@ const Register = () => {
           />
         </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Check me out" />
-        </Form.Group>
-
         <Button variant="primary" type="submit">
-          Connexion
+          Inscription
         </Button>
         <p> Vous avez déja un compte ?</p>
         <Link href="/signin">

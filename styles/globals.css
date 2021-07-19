@@ -26,3 +26,10 @@ a {
   min-width: 280px;
   z-index: 9;
 }
+
+/* ----------- Loading ------------- */
+@import url("./loading.css");
+
+.dropdown-toggle::after {
+  display: none;
+}
