@@ -30,6 +30,21 @@ a {
 /* ----------- Loading ------------- */
 @import url("./loading.css");
 
+/* ----------- Products ------------- */
+@import url("./product.css");
+
+/* ----------- Profile ------------- */
+@import url("./profile.css");
+
+/* ----------- Products Manager ------------- */
+@import url("./products_manager.css");
+
 .dropdown-toggle::after {
   display: none;
+}
+
+.d1 {
+  border-radius: 50%;
+  transform: translateY(-3px);
+  margin-right: 3px;
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useContext } from "react";
 import { useRouter } from "next/router";
 import { faShoppingCart, faUser } from "@fortawesome/free-solid-svg-icons";
@@ -53,13 +54,14 @@ const NavBar = () => {
       <NavDropdown
         title={
           <div className="d1">
-            <img
+            <Image
+              width={30}
+              height={30}
               src={auth.user.avatar}
               alt={auth.user.avatar}
               style={{
                 borderRadius: "50%",
-                width: "30px",
-                height: "30px",
+
                 transform: "translateY(-3px)",
                 marginRight: "3px",
               }}

@@ -22,16 +22,15 @@ const Register = () => {
   const controlPasswordInput = useRef(null);
   const dataToSend = { name, lastname, email, password, controlPassword };
 
-  //Routing
-  const router = useRouter();
-
-  useEffect(() => {
-    if (Object.keys(auth).length !== 0) router.push("/");
-  }, [auth]);
-
   //context & actions reducers
   const { state, dispatch } = useContext(DataContext);
   const { auth } = state;
+
+  //Routing
+  const router = useRouter();
+  useEffect(() => {
+    if (Object.keys(auth).length !== 0) router.push("/");
+  }, [auth]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

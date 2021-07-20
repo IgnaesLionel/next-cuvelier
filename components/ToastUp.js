@@ -9,7 +9,6 @@ const ToastUp = ({ msg, handleShow, bgColor }) => {
     }, 3000);
   };
 
-  console.log(handleShow);
   return (
     <div className="toasted">
       <Row>

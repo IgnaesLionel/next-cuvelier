@@ -16,16 +16,15 @@ const Signin = () => {
   const passwordInput = useRef(null);
   const dataToSend = { email, password };
 
-  //Routing
-  const router = useRouter();
-
-  useEffect(() => {
-    if (Object.keys(auth).length !== 0) router.push("/");
-  }, [auth]);
-
   //context & actions reducers
   const { state, dispatch } = useContext(DataContext);
   const { auth } = state;
+
+  //Routing
+  const router = useRouter();
+  useEffect(() => {
+    if (Object.keys(auth).length !== 0) router.push("/");
+  }, [auth]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
