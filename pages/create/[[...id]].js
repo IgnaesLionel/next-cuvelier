@@ -145,9 +145,6 @@ const ProductsManager = () => {
         <title>Products Manager</title>
       </Head>
       <h1>Products Manager</h1>
-      <h1>Products Manager</h1>
-      <h1>Products Manager</h1>
-      <h1>Products Manager</h1>
 
       <form className="row" onSubmit={handleSubmit}>
         <div className="col-md-6">
@@ -216,7 +213,7 @@ const ProductsManager = () => {
               onChange={handleChangeInput}
               className="custom-select text-capitalize"
             >
-              <option value="all">All Products</option>
+              <option value="all">Tous les articles</option>
               {categories.map((item) => (
                 <option key={item._id} value={item._id}>
                   {item.name}

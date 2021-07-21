@@ -13,7 +13,8 @@ const Users = () => {
       <Head>
         <title>Users</title>
       </Head>
-
+      <h1> Utilisateurs</h1>
+      <h1> Utilisateurs</h1>
       <table className="table w-100">
         <thead>
           <tr>

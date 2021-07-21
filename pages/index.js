@@ -63,8 +63,8 @@ export default function Home(props) {
       <Head>
         <title>Sas Cuvelier - Page accueil</title>
       </Head>
-      <h1> tEST </h1>
-      <h1> tEST </h1>
+      <h1> Nos articles </h1>
+      <h1> Nos articles </h1>
 
       <Filter state={state} />
 

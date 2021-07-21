@@ -35,10 +35,11 @@ const NavBar = () => {
       <>
         <NavDropdown title="admin" id="collasible-nav-dropdown">
           <Link href="/users">
-            <NavDropdown.Item href="/users">Users</NavDropdown.Item>
+            <NavDropdown.Item href="/users">Utilisateur</NavDropdown.Item>
           </Link>
+          <NavDropdown.Divider />
           <Link href="/create">
-            <NavDropdown.Item href="/create">Products</NavDropdown.Item>
+            <NavDropdown.Item href="/create">Produits</NavDropdown.Item>
           </Link>
           <NavDropdown.Divider />
           <Link href="/categories">
@@ -105,6 +106,19 @@ const NavBar = () => {
                     icon={faShoppingCart}
                   />
                   Panier
+                  <span
+                    className="position-absolute"
+                    style={{
+                      padding: "3px 6px",
+                      background: "#ed143dc2",
+                      borderRadius: "50%",
+
+                      color: "white",
+                      fontSize: "14px",
+                    }}
+                  >
+                    {cart.length}
+                  </span>
                 </div>
               </Nav.Link>
             </Link>

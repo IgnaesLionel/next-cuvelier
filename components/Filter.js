@@ -34,7 +34,7 @@ const Filter = ({ state }) => {
           value={category}
           onChange={handleCategory}
         >
-          <option value="all">All Products</option>
+          <option value="all">Tous les articles</option>
 
           {categories.map((item) => (
             <option key={item._id} value={item._id}>
@@ -61,7 +61,7 @@ const Filter = ({ state }) => {
           onChange={handleSort}
         >
           <option value="-createdAt">Nouveauté</option>
-          <option value="oldest">Oldest</option>
+          <option value="oldest">Ancienneté</option>
           <option value="-sold">Meilleur vente</option>
           <option value="-price">Prix: Décroissant</option>
           <option value="price">Prix: Croissant</option>
