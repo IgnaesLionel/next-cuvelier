@@ -5,7 +5,7 @@ import { createAccessToken } from "../../../utils/generateToken";
 
 connectDB();
 
-const handleToken = async (req, res) => {
+export default async (req, res) => {
   try {
     const rf_token = req.cookies.refreshtoken;
     if (!rf_token) return res.status(400).json({ err: "Please login now!" });
@@ -14,7 +14,7 @@ const handleToken = async (req, res) => {
     if (!result)
       return res
         .status(400)
-        .json({ err: "Your token is incorrect or has expired." });
+        .json({ err: "Votre token est incorrect ou a expiré." });
 
     const user = await Users.findById(result.id);
     if (!user) return res.status(400).json({ err: "User does not exist." });
@@ -24,7 +24,6 @@ const handleToken = async (req, res) => {
       access_token,
       user: {
         name: user.name,
-        lastname: user.lastname,
         email: user.email,
         role: user.role,
         avatar: user.avatar,
@@ -35,5 +34,3 @@ const handleToken = async (req, res) => {
     return res.status(500).json({ err: err.message });
   }
 };
-
-export default handleToken;

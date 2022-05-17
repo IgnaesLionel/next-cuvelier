@@ -1,0 +1,132 @@
+@import "../../styles/abstracts/variables";
+@import "../../styles/abstracts/mixins";
+
+.container {
+  display: flex;
+  justify-content: space-evenly;
+
+  @include respond(tab-port) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+}
+
+.content {
+  width: 20%;
+
+  @include respond(tab-port) {
+    width: 80%;
+    padding-bottom: 10rem;
+  }
+}
+.sectionFeatures {
+  padding: 20rem 0 15rem 0;
+  border-style: solid;
+  border: solid;
+  border-width: 10px;
+  border-left: 0px;
+  border-right: 0px;
+  border-color: white;
+  background-image: linear-gradient(
+      to right bottom,
+      rgba($color-primary-light, 0.8),
+      rgba($color-primary-dark, 0.8)
+    ),
+    url(./nat-4.jpg);
+  background-size: cover;
+  margin-top: -12rem;
+  transform: skewY(-7deg);
+
+  & > * {
+    transform: skewY(7deg);
+  }
+
+  @include respond(tab-port) {
+    padding: 10rem 0;
+  }
+}
+
+.featureBox {
+  background-color: rgba(255, 255, 255, 1);
+  font-size: 1.5rem;
+  padding: 2.5rem;
+  text-align: center;
+  border-radius: 3px;
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s;
+  position: relative;
+  color: black;
+
+  @include respond(tab-port) {
+    padding: 2rem;
+  }
+
+  &__icon {
+    font-size: 6rem;
+    margin-bottom: 0.5rem;
+    display: inline-block;
+    background-image: linear-gradient(
+      to right,
+      $color-primary-light,
+      $color-primary-dark
+    );
+    -webkit-background-clip: text;
+    color: transparent;
+
+    @include respond(tab-port) {
+      margin-bottom: 0rem;
+    }
+  }
+
+  &:hover {
+    transform: translateY(-1.5rem) scale(1.03);
+  }
+}
+
+.headingTertiary {
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.marginBottom1 {
+  margin-bottom: 1rem;
+}
+
+.imgCorner {
+  position: absolute;
+  right: -25px;
+  top: -25px;
+  transition: transform 0.3s;
+  &:hover {
+    transform: scale(1.2) rotate(360deg);
+  }
+}
+
+.title {
+  font-family: "Staatliches", cursive;
+  background-color: rgba(255, 255, 255, 1);
+  font-weight: bold;
+  line-height: 1.7;
+  margin: 0 auto;
+  color: black;
+  width: 80%;
+  text-align: center;
+  margin-bottom: 3em;
+  font-size: 3em;
+  padding: 1em;
+  border-radius: 3px;
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s;
+
+  @include respond(phone) {
+    width: 90%;
+    font-size: 2rem;
+  }
+
+  &:hover {
+    transform: scale(1.1) skewY(+7deg);
+  }
+}

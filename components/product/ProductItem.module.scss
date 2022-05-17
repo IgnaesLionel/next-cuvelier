@@ -1,0 +1,93 @@
+@import "../../styles/abstracts/variables";
+@import "../../styles/abstracts/mixins";
+
+.card {
+  margin: 10px 0rem;
+  background-color: white;
+  border: 3px solid $color-primary;
+  border-radius: 0 0 15px 15px;
+  -webkit-box-shadow: 11px 11px 7px -4px rgba(0, 0, 0, 0.5);
+  box-shadow: 11px 11px 7px -4px rgba(0, 0, 0, 0.5);
+  padding: 5px 5px 5px 0px;
+  width: 20rem;
+  max-height: 560px;
+  /*   min-width: 20rem; */
+  /* max-height: 39rem; */
+
+  @include respond(big-desktop) {
+    width: 30rem;
+    max-height: 760px;
+  }
+
+  @include respond(tab-land) {
+    width: 30rem;
+    max-height: 660px;
+  }
+
+  @include respond(tab-port) {
+    width: 30rem;
+    max-height: 660px;
+  }
+
+  @include respond(phone) {
+    width: 30rem;
+    max-height: 660px;
+  }
+}
+.cardImgTop {
+  width: 100%;
+}
+.cardTitle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 1.5rem;
+}
+.cardText {
+  height: 120px;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  @include respond(phone) {
+    height: 70px;
+  }
+}
+
+.number {
+  font-size: 1.5rem;
+}
+.numberBtn {
+  font-size: 1.5rem;
+  width: 30px;
+  height: 30px;
+}
+
+.quantityBox {
+  border: 1px solid;
+  display: flex;
+  justify-content: space-evenly;
+  text-align: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.center {
+  padding-bottom: 10px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.cardBody {
+  background-color: rgb(248, 248, 248);
+  margin: 1.5rem;
+  border: 1px solid;
+  border-color: transparent transparent transparent;
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.price {
+  color: $color-primary;
+  font-size: 3rem;
+}

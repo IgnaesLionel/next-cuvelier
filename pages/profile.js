@@ -107,7 +107,7 @@ const Profile = () => {
 
   if (!auth.user) return null;
   return (
-    <div className="profile_page">
+    <div style={{ minHeight: "80vh" }} className="profile_page">
       <Head>
         <title>Profile</title>
       </Head>
@@ -115,7 +115,9 @@ const Profile = () => {
       <section className="row text-secondary my-3">
         <div className="col-md-4">
           <h3 className="text-center text-uppercase">
-            {auth.user.role === "user" ? "User Profile" : "Admin Profile"}
+            {auth.user.role === "user"
+              ? "Votre Profil"
+              : "Profil Administrateur"}
           </h3>
 
           <div className="avatar">
@@ -137,7 +139,7 @@ const Profile = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="name">Name</label>
+            <label htmlFor="name">Nom</label>
             <input
               type="text"
               name="name"
@@ -149,7 +151,7 @@ const Profile = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">E-mail</label>
             <input
               type="text"
               name="email"
@@ -160,25 +162,25 @@ const Profile = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">New Password</label>
+            <label htmlFor="password">Nouveau Mot De Passe</label>
             <input
               type="password"
               name="password"
               value={password}
               className="form-control"
-              placeholder="Your new password"
+              placeholder="votre nouveau mot de passe"
               onChange={handleChange}
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="cf_password">Confirm New Password</label>
+            <label htmlFor="cf_password">Confirmation Mot De Passe</label>
             <input
               type="password"
               name="cf_password"
               value={cf_password}
               className="form-control"
-              placeholder="Confirm new password"
+              placeholder="Confirmez vptre mot de passe"
               onChange={handleChange}
             />
           </div>
@@ -188,12 +190,12 @@ const Profile = () => {
             disabled={notify.loading}
             onClick={handleUpdateProfile}
           >
-            Update
+            Mettre à jour
           </button>
         </div>
 
         <div className="col-md-8">
-          <h3 className="text-uppercase">Orders</h3>
+          <h3 className="text-uppercase">Vos Commandes</h3>
 
           <div className="my-3 table-responsive">
             <table
@@ -202,11 +204,11 @@ const Profile = () => {
             >
               <thead className="bg-light font-weight-bold">
                 <tr>
-                  <td className="p-2">id</td>
+                  <td className="p-2">Numero de commande</td>
                   <td className="p-2">date</td>
                   <td className="p-2">total</td>
-                  <td className="p-2">delivered</td>
-                  <td className="p-2">paid</td>
+                  <td className="p-2">Livrer</td>
+                  <td className="p-2">Payer</td>
                 </tr>
               </thead>
 
@@ -221,7 +223,7 @@ const Profile = () => {
                     <td className="p-2">
                       {new Date(order.createdAt).toLocaleDateString()}
                     </td>
-                    <td className="p-2">${order.total}</td>
+                    <td className="p-2">{order.total}€</td>
                     <td className="p-2">
                       {order.delivered ? (
                         <i className="fas fa-check text-success"></i>

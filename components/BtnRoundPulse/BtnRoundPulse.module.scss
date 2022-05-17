@@ -1,0 +1,92 @@
+@import "../../styles/abstracts/variables";
+@import "../../styles/abstracts/mixins";
+
+.btn {
+  &,
+  &:link,
+  &:visited {
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1.5rem 4rem;
+    display: inline-block;
+    border-radius: 10rem;
+    transition: all 0.2s; /* linked to transform */
+    position: relative;
+    font-size: 1.6rem;
+
+    border-style: solid;
+    border-width: 6px;
+    border-color: $color-primary-dark;
+    cursor: pointer;
+    @include respond(phone) {
+      width: 80%;
+      padding: 1rem 2rem;
+    }
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    color: $color-primary-light;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+
+    &::after {
+      transform: scaleX(1.4) scaleY(1.6);
+      opacity: 0;
+    }
+  }
+
+  &:active,
+  &:focus {
+    outline: none;
+    transform: translateY(-1px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+  }
+
+  &__white {
+    background-color: $color-white;
+    color: $color-grey;
+
+    &::after {
+      background-color: $color-white;
+    }
+  }
+
+  &__green {
+    background-color: $color-primary-dark;
+    color: white;
+
+    &::after {
+      background-color: $color-primary-dark;
+    }
+  }
+
+  &::after {
+    content: ""; /*needed*/
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    border-radius: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transition: all 0.4s;
+  }
+
+  &__animated {
+    animation: moveInBottom 0.5s ease-out 0.75s;
+    animation-fill-mode: backwards; /* force 0% to avoid showing at start */
+  }
+}
+
+@keyframes moveInBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(3rem);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}

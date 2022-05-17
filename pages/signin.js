@@ -1,42 +1,36 @@
-import React from "react";
 import Head from "next/head";
 import Link from "next/link";
-import { useState, useRef, useContext, useEffect } from "react";
-import { useRouter } from "next/router";
-import { Form, Button } from "react-bootstrap";
+import { useState, useContext, useEffect } from "react";
 import { DataContext } from "../store/GlobalState";
 import { postData } from "../utils/fetchData";
 import Cookie from "js-cookie";
+import { useRouter } from "next/router";
 
 const Signin = () => {
-  // Data from input
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const emailInput = useRef(null);
-  const passwordInput = useRef(null);
-  const dataToSend = { email, password };
+  const initialState = { email: "", password: "" };
+  const [userData, setUserData] = useState(initialState);
+  const { email, password } = userData;
 
-  //context & actions reducers
   const { state, dispatch } = useContext(DataContext);
   const { auth } = state;
 
-  //Routing
   const router = useRouter();
-  useEffect(() => {
-    if (Object.keys(auth).length !== 0) router.push("/");
-  }, [auth]);
+
+  const handleChangeInput = (e) => {
+    const { name, value } = e.target;
+    setUserData({ ...userData, [name]: value });
+    dispatch({ type: "NOTIFY", payload: {} });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch({ type: "NOTIFY", payload: { loading: true } });
-    const res = await postData("auth/login", dataToSend);
+    const res = await postData("auth/login", userData);
 
-    //error to notify -> Toast
     if (res.err)
       return dispatch({ type: "NOTIFY", payload: { error: res.err } });
     dispatch({ type: "NOTIFY", payload: { success: res.msg } });
 
-    //Context Auth
     dispatch({
       type: "AUTH",
       payload: {
@@ -45,56 +39,74 @@ const Signin = () => {
       },
     });
 
-    //Cookie Auth
     Cookie.set("refreshtoken", res.refresh_token, {
       path: "api/auth/accessToken",
       expires: 7,
     });
 
-    //Local Auth
     localStorage.setItem("firstLogin", true);
   };
 
+  useEffect(() => {
+    if (Object.keys(auth).length !== 0) router.push("/");
+  }, [auth]);
+
   return (
-    <div>
-      {" "}
+    <div style={{ minHeight: "80vh" }}>
       <Head>
-        <title>Page de connexion</title>
+        <title>Page de connection</title>
       </Head>
-      <h1>SignIn</h1>
-      <h1>S’identifier</h1>
-      <Form
+
+      <form
         className="mx-auto my-4"
         style={{ maxWidth: "500px" }}
         onSubmit={handleSubmit}
       >
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>E-mail</Form.Label>
-          <Form.Control
+        <div className="form-group">
+          <label htmlFor="exampleInputEmail1">Votre adresse E-mail</label>
+          <input
             type="email"
-            ref={emailInput}
+            className="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            name="email"
             value={email}
-            onChange={(e) => setEmail(emailInput.current.value)}
+            onChange={handleChangeInput}
           />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Mot de passe</Form.Label>
-          <Form.Control
+          <small id="emailHelp" className="form-text text-muted">
+            Nous ne partagerons jamais votre adresse e-mail privée.
+          </small>
+        </div>
+        <div className="form-group">
+          <label htmlFor="exampleInputPassword1">Password</label>
+          <input
             type="password"
+            className="form-control"
+            id="exampleInputPassword1"
+            name="password"
             value={password}
-            ref={passwordInput}
-            onChange={(e) => setPassword(passwordInput.current.value)}
-            placeholder="votre mot de passe"
+            onChange={handleChangeInput}
           />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Connexion
-        </Button>
-        <p>Vous n{"'"}avez pas de compte ?</p>{" "}
-        <Link href="/register">
-          <a style={{ color: "crimson" }}>Inscrivez-vous</a>
-        </Link>
-      </Form>
+        </div>
+
+        <button type="submit" className="btn btn-dark w-100">
+          Login
+        </button>
+
+        <p className="my-2">
+          Vous n'avez pas encore de compte ?{" "}
+          <Link href="/register">
+            <a style={{ color: "crimson" }}>Enregistrez-vous</a>
+          </Link>
+        </p>
+
+        <p className="my-2">
+          Vous avez oublié votre mot de passe ?{" "}
+          <Link href="/forgotPassword">
+            <a style={{ color: "crimson" }}>Réinitialisez-le</a>
+          </Link>
+        </p>
+      </form>
     </div>
   );
 };

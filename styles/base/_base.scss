@@ -1,0 +1,55 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%; /* 1rem = 10px = 10px/16px = 62.5% */
+
+  @include respond(big-desktop) {
+    font-size: 75%; // 1rem = 12, 12*16 = 75%
+  }
+
+  @include respond(tab-land) {
+    font-size: 56.25%; //1 rem= 9x, 9/16 = 56.25
+  }
+
+  @include respond(tab-port) {
+    font-size: 50%; // 1rem = 8px, 8/16= 50%
+  }
+}
+
+body {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+
+  padding: 2% 5% 5% 5%;
+  box-sizing: border-box;
+
+  @include respond(tab-land) {
+    padding:  2% 5% 5% 5%;
+  }
+}
+
+::selection {
+  background-color: $color-primary;
+  color: white;
+}
+
+a:hover {
+  color: white;
+}
+
+.h1Style {
+  color: white;
+  font-size: 3rem;
+  padding: 60px 0px;
+}
+
+::placeholder {
+  color: rgb(211, 211, 211);
+}

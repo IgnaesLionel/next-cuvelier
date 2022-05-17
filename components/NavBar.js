@@ -1,145 +1,188 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { useContext } from "react";
 import { useRouter } from "next/router";
-import { faShoppingCart, faUser } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Navbar, Container, NavDropdown, Nav, Button } from "react-bootstrap";
-import classes from "./NavBar.module.css";
 import { DataContext } from "../store/GlobalState";
 import Cookie from "js-cookie";
+import classes from "./NavBar.module.scss";
+import NavBtn from "./NavBtn/NavBtn";
+import CartModal from "../components/CartModal/CartModal";
+import FullScreenMenu from "./FullScreenMenu/FullScreenMenu";
 
-const NavBar = () => {
+function NavBar() {
   const router = useRouter();
   const { state, dispatch } = useContext(DataContext);
   const { auth, cart } = state;
+
   const isActive = (r) => {
     if (r === router.pathname) {
-      return classes.activeBtn;
+      return " active";
     } else {
-      return null;
+      return "";
     }
   };
+  const [showModal, setShowModal] = useState(false);
 
   const handleLogout = () => {
     Cookie.remove("refreshtoken", { path: "api/auth/accessToken" });
     localStorage.removeItem("firstLogin");
     dispatch({ type: "AUTH", payload: {} });
-    dispatch({ type: "NOTIFY", payload: { success: "Déconnecté!" } });
+    dispatch({ type: "NOTIFY", payload: { success: "Déconnection !" } });
     return router.push("/");
+  };
+
+  const cartModal = () => {
+    return (
+      <>
+        {cart.length & showModal ? (
+          <CartModal
+            showModal={showModal}
+            setShowModal={setShowModal}
+            cart={cart}
+            dispatch={dispatch}
+          />
+        ) : null}
+      </>
+    );
   };
 
   const adminRouter = () => {
     return (
       <>
-        <NavDropdown title="admin" id="collasible-nav-dropdown">
-          <Link href="/users">
-            <NavDropdown.Item href="/users">Utilisateur</NavDropdown.Item>
-          </Link>
-          <NavDropdown.Divider />
-          <Link href="/create">
-            <NavDropdown.Item href="/create">Produits</NavDropdown.Item>
-          </Link>
-          <NavDropdown.Divider />
-          <Link href="/categories">
-            <NavDropdown.Item href="/categories">Categories</NavDropdown.Item>
-          </Link>
-        </NavDropdown>
+        <Link href="/users">
+          <a className="dropdown-item">Utilisateurs</a>
+        </Link>
+        <Link href="/create">
+          <a className="dropdown-item">Création</a>
+        </Link>
+        <Link href="/categories">
+          <a className="dropdown-item">Categories</a>
+        </Link>
       </>
     );
   };
 
   const loggedRouter = () => {
     return (
-      <NavDropdown
-        title={
-          <div className="d1">
-            <Image
-              width={30}
-              height={30}
-              src={auth.user.avatar}
-              alt={auth.user.avatar}
-              style={{
-                borderRadius: "50%",
+      <li className="nav-item dropdown">
+        <a
+          className="nav-link dropdown-toggle"
+          href="#"
+          id="navbarDropdownMenuLink"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <img
+            src={auth.user.avatar}
+            alt={auth.user.avatar}
+            style={{
+              borderRadius: "50%",
+              width: "30px",
+              height: "30px",
+              color: "white",
+              transform: "translateY(-3px)",
+              marginRight: "3px",
+            }}
+          />{" "}
+          <span
+            style={{
+              color: "white",
+            }}
+          >
+            {" "}
+            {auth.user.name}
+          </span>
+        </a>
 
-                transform: "translateY(-3px)",
-                marginRight: "3px",
-              }}
-            />
-            {auth.user.name} {auth.user.lastname}
-          </div>
-        }
-      >
-        <Link href="/profile">
-          <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
-        </Link>
-        {auth.user.role === "admin" && adminRouter()}
-        <NavDropdown.Divider />
-        <NavDropdown.Item>
-          <Button onClick={handleLogout}>Logout</Button>
-        </NavDropdown.Item>
-        <NavDropdown.Divider />
         <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <Link href="/profile">
+            <a className="dropdown-item">Mon Compte</a>
+          </Link>
+          {auth.user.role === "admin" && adminRouter()}
           <div className="dropdown-divider"></div>
+          <button className="dropdown-item" onClick={handleLogout}>
+            Déconnection
+          </button>
         </div>
-      </NavDropdown>
+      </li>
     );
   };
 
   return (
-    <Navbar collapseOnSelect expand="lg" bg="light" variant="light" fixed="top">
-      <Container>
-        <Link href="/">
-          <Navbar.Brand>Sas Cuvelier</Navbar.Brand>
-        </Link>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto"></Nav>
+    <nav className={classes.flexboxWrapper}>
+      <Link href="/">
+        <a className={classes.sticky}>
+          <NavBtn url="/" name="Cuvelier" />
+        </a>
+      </Link>
 
-          <Nav>
-            <Link href="/cart">
-              <Nav.Link href="/cart">
-                <div className={isActive("/cart")}>
-                  <FontAwesomeIcon
-                    className="menu-icons"
-                    icon={faShoppingCart}
-                  />
-                  Panier
+      <Link href="/produits">
+        <a className={classes.sticky}>
+          <NavBtn url="/produits" name="Nos produits" />
+        </a>
+      </Link>
+      <Link href="/moyens">
+        <a className={classes.sticky}>
+          <NavBtn url="/moyens" name="Nos moyens" />
+        </a>
+      </Link>
+      <Link href="/actualites">
+        <a className={classes.sticky}>
+          <NavBtn
+            url="/actualites"
+            name="Nos actualités
+            "
+          />
+        </a>
+      </Link>
+      <Link href="/contact">
+        <a className={classes.sticky}>
+          <NavBtn url="/contact" name="Contactez-nous" />
+        </a>
+      </Link>
+
+      <Link className={classes.cartBtn} href="/cart">
+        <a className={"nav-link" + isActive("/cart")}>
+          <i
+            style={{
+              color: "white",
+            }}
+            onMouseOver={() => setShowModal(true)}
+            className={`fas fa-shopping-cart fa-2x position-relative ${classes.cart}`}
+            aria-hidden="true"
+          >
+            <span> {cart.length}</span>
+            {cart.length > 1 ? " articles" : " article"}
+          </i>{" "}
+        </a>
+      </Link>
+      <div id="navbarNavDropdown">
+        <ul className="navbar-nav p-1">
+          {Object.keys(auth).length === 0 ? (
+            <li className="nav-item">
+              <Link href="/signin">
+                <a className={"nav-link" + isActive("/signin")}>
+                  <i className="fas fa-user" aria-hidden="true"></i>{" "}
                   <span
-                    className="position-absolute"
                     style={{
-                      padding: "3px 6px",
-                      background: "#ed143dc2",
-                      borderRadius: "50%",
-
                       color: "white",
-                      fontSize: "14px",
+                      fontSize: "10px",
                     }}
                   >
-                    {cart.length}
+                    Se connecter
                   </span>
-                </div>
-              </Nav.Link>
-            </Link>
-          </Nav>
-        </Navbar.Collapse>
-
-        {Object.keys(auth).length === 0 ? (
-          <Link href="/signin">
-            <Nav.Link href="/signin" active>
-              <div className={isActive("/signin")}>
-                <FontAwesomeIcon className="menu-icons" icon={faUser} />
-                Se connecter
-              </div>
-            </Nav.Link>
-          </Link>
-        ) : (
-          loggedRouter()
-        )}
-      </Container>
-    </Navbar>
+                </a>
+              </Link>
+            </li>
+          ) : (
+            loggedRouter()
+          )}
+        </ul>
+        {cartModal()}
+        <FullScreenMenu />
+      </div>
+    </nav>
   );
-};
+}
 
 export default NavBar;

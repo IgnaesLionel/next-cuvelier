@@ -1,0 +1,11 @@
+@import "../styles/abstracts/variables";
+@import "../styles/abstracts/mixins";
+
+.contact {
+  margin-top: 100px;
+  width: 100%;
+  margin: 0px auto;
+  text-align: center;
+  min-height: 100vh;
+  background-color: $color-primary-light;
+}

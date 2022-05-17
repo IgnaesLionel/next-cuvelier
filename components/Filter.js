@@ -27,7 +27,16 @@ const Filter = ({ state }) => {
   }, [search]);
 
   return (
-    <div className="input-group">
+    <div
+      className="input-group  d-flex  justify-content-center"
+      style={{
+        paddingTop: "0px",
+        width: "80%",
+        margin: "0 auto",
+
+        overflow: "hidden",
+      }}
+    >
       <div className="input-group-prepend col-md-2 px-0 mt-2">
         <select
           className="custom-select text-capitalize"
@@ -61,10 +70,10 @@ const Filter = ({ state }) => {
           onChange={handleSort}
         >
           <option value="-createdAt">Nouveauté</option>
-          <option value="oldest">Ancienneté</option>
-          <option value="-sold">Meilleur vente</option>
-          <option value="-price">Prix: Décroissant</option>
-          <option value="price">Prix: Croissant</option>
+          <option value="oldest">par ancienneté</option>
+          <option value="-sold">Meilleur ventes</option>
+          <option value="-price">Prix décroissant</option>
+          <option value="price">Prix croissant</option>
         </select>
       </div>
     </div>

@@ -43,20 +43,18 @@ export const DataProvider = ({ children }) => {
       });
     });
   }, []);
-  /*   useEffect(() => {
-    const __next__cart01__devat = JSON.parse(
-      localStorage.getItem("__next__cart01__devat")
-    );
 
-    if (__next__cart01__devat)
-      dispatch({ type: "ADD_CART", payload: __next__cart01__devat });
+  useEffect(() => {
+    const cuvelier__cart = JSON.parse(localStorage.getItem(" cuvelier__cart "));
+
+    if (cuvelier__cart) dispatch({ type: "ADD_CART", payload: cuvelier__cart });
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("__next__cart01__devat", JSON.stringify(cart));
+    localStorage.setItem(" cuvelier__cart ", JSON.stringify(cart));
   }, [cart]);
- */
-  /*   useEffect(() => {
+
+  useEffect(() => {
     if (auth.token) {
       getData("order", auth.token).then((res) => {
         if (res.err)
@@ -78,7 +76,7 @@ export const DataProvider = ({ children }) => {
       dispatch({ type: "ADD_USERS", payload: [] });
     }
   }, [auth.token]);
- */
+
   return (
     <DataContext.Provider value={{ state, dispatch }}>
       {children}

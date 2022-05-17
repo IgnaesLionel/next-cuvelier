@@ -140,12 +140,10 @@ const ProductsManager = () => {
   };
 
   return (
-    <div className="products_manager">
+    <div style={{ minHeight: "80vh" }} className="products_manager">
       <Head>
         <title>Products Manager</title>
       </Head>
-      <h1>Products Manager</h1>
-
       <form className="row" onSubmit={handleSubmit}>
         <div className="col-md-6">
           <input
@@ -159,7 +157,7 @@ const ProductsManager = () => {
 
           <div className="row">
             <div className="col-sm-6">
-              <label htmlFor="price">Prix</label>
+              <label htmlFor="price">Price</label>
               <input
                 type="number"
                 name="price"
@@ -171,7 +169,7 @@ const ProductsManager = () => {
             </div>
 
             <div className="col-sm-6">
-              <label htmlFor="price">Nombre en stock</label>
+              <label htmlFor="price">En stock</label>
               <input
                 type="number"
                 name="inStock"
@@ -213,7 +211,7 @@ const ProductsManager = () => {
               onChange={handleChangeInput}
               className="custom-select text-capitalize"
             >
-              <option value="all">Tous les articles</option>
+              <option value="all">Tous les produits</option>
               {categories.map((item) => (
                 <option key={item._id} value={item._id}>
                   {item.name}

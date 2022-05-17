@@ -16,13 +16,13 @@ const Categories = () => {
     if (auth.user.role !== "admin")
       return dispatch({
         type: "NOTIFY",
-        payload: { error: "Authentication is not vaild." },
+        payload: { error: "L'authentication n'est pas vailde." },
       });
 
     if (!name)
       return dispatch({
         type: "NOTIFY",
-        payload: { error: "Name can not be left blank." },
+        payload: { error: "Votre nom ne peut pas rester vide." },
       });
 
     dispatch({ type: "NOTIFY", payload: { loading: true } });
@@ -53,11 +53,10 @@ const Categories = () => {
   };
 
   return (
-    <div className="col-md-6 mx-auto my-3">
+    <div style={{ minHeight: "80vh" }} className="col-md-6 mx-auto my-3">
       <Head>
         <title>Categories</title>
       </Head>
-      <h1>Categories</h1>
 
       <div className="input-group mb-3">
         <input
@@ -69,7 +68,7 @@ const Categories = () => {
         />
 
         <button className="btn btn-secondary ml-1" onClick={createCategory}>
-          {id ? "M.A.J" : "Créer"}
+          {id ? "Mise a jour" : "Créer"}
         </button>
       </div>
 

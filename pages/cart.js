@@ -1,17 +1,19 @@
 import Head from "next/head";
 import { useContext, useState, useEffect } from "react";
 import { DataContext } from "../store/GlobalState";
-import CartItem from "../components/CartItem";
+import CartItem from "../components/CartItem/CartItem";
 import Link from "next/link";
 import { getData, postData } from "../utils/fetchData";
 import { useRouter } from "next/router";
+import { PayPalButton } from "react-paypal-button-v2";
 
 const Cart = () => {
   const { state, dispatch } = useContext(DataContext);
   const { cart, auth, orders } = state;
 
   const [total, setTotal] = useState(0);
-
+  /*   const [scriptLoaded, setScriptLoaded] = useState(false);
+   */
   const [address, setAddress] = useState("");
   const [mobile, setMobile] = useState("");
 
@@ -31,12 +33,14 @@ const Cart = () => {
   }, [cart]);
 
   useEffect(() => {
-    const cartLocal = JSON.parse(localStorage.getItem("__next__cart01__devat"));
+    const cartLocal = JSON.parse(localStorage.getItem(" cuvelier__cart"));
+    console.log("start");
     if (cartLocal && cartLocal.length > 0) {
       let newArr = [];
       const updateCart = async () => {
         for (const item of cartLocal) {
           const res = await getData(`product/${item._id}`);
+
           const { _id, title, images, price, inStock, sold } = res.product;
           if (inStock > 0) {
             newArr.push({
@@ -56,13 +60,30 @@ const Cart = () => {
 
       updateCart();
     }
+
+    /*    const addPaypalScript = () => {
+      const scriptPayPal = document.createElement("script");
+      scriptPayPal.src =
+        "https://www.paypal.com/sdk/js?client-id=AdqPpNH070_f5WiuGsgJb3ZnuaWp5xFnlBusRJqWwI3gSHZ-odjbQq4tRlQNG4oU2e_9i1ZACJ0RI-wo";
+      scriptPayPal.type = "text/javascript";
+      scriptPayPal.async = true;
+
+      scriptPayPal.onload = () => setScriptLoaded(true);
+
+      document.body.appendChild(scriptPayPal);
+    };
+
+    addPaypalScript(); */
   }, [callback]);
 
   const handlePayment = async () => {
     if (!address || !mobile)
       return dispatch({
         type: "NOTIFY",
-        payload: { error: "Please add your address and mobile." },
+        payload: {
+          error:
+            "S'il vous plait, ajouter votre addresse et votre numero de téléphone.",
+        },
       });
 
     let newCart = [];
@@ -103,6 +124,10 @@ const Cart = () => {
     );
   };
 
+  const handleStripePayment = async () => {
+    console.log("stripe");
+  };
+
   if (cart.length === 0)
     return (
       <img
@@ -113,13 +138,13 @@ const Cart = () => {
     );
 
   return (
-    <div className="row mx-auto">
+    <div style={{ minHeight: "100vh" }} className="row mx-auto">
       <Head>
         <title>Cart Page</title>
       </Head>
 
       <div className="col-md-8 text-secondary table-responsive my-3">
-        <h2 className="text-uppercase">Shopping Cart</h2>
+        <h2 className="text-uppercase">Votre panier</h2>
 
         <table className="table my-3">
           <tbody>
@@ -137,9 +162,9 @@ const Cart = () => {
 
       <div className="col-md-4 my-3 text-right text-uppercase text-secondary">
         <form>
-          <h2>Shipping</h2>
+          <h2>Livraison</h2>
 
-          <label htmlFor="address">Address</label>
+          <label htmlFor="address">Addresse de livraison</label>
           <input
             type="text"
             name="address"
@@ -149,7 +174,7 @@ const Cart = () => {
             onChange={(e) => setAddress(e.target.value)}
           />
 
-          <label htmlFor="mobile">Mobile</label>
+          <label htmlFor="mobile">Numero de téléphone</label>
           <input
             type="text"
             name="mobile"
@@ -161,14 +186,30 @@ const Cart = () => {
         </form>
 
         <h3>
-          Total: <span className="text-danger">{total}€</span>
+          Total: <span className="text-danger">{total.toFixed(2)}€</span>
         </h3>
 
         <Link href={auth.user ? "#!" : "/signin"}>
           <a className="btn btn-dark my-2" onClick={handlePayment}>
-            Proceed with payment
+            Proceder au payement
           </a>
         </Link>
+
+        <div>
+          {/*  {scriptLoaded ? (
+            <PayPalButton
+              amount={total}
+              onSuccess={(details, data) => {
+                //save the transaction
+                // console.log(details);
+                addDonationInDB(details.payer.name.given_name);
+              }}
+            />
+          ) : (
+            <span>Loading...</span>
+          )}{" "} */}
+          <button onClick={() => handleStripePayment()}> test STRIPE !</button>
+        </div>
       </div>
     </div>
   );

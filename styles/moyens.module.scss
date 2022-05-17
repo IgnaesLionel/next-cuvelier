@@ -1,0 +1,71 @@
+@import "../styles/abstracts/variables";
+@import "../styles/abstracts/mixins";
+
+.moyens {
+  z-index: -1;
+  margin-top: 100px;
+  width: 100%;
+  margin: 0px auto;
+  text-align: center;
+  min-height: 100vh;
+  background-color: $color-primary-light;
+  color: white;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  gap: 0px 0px;
+  align-items: center;
+  justify-items: center;
+  font-size: 2em;
+  padding: 0 30px;
+  @include respond(tab-port) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    font-size: 1.7em;
+    padding: 10px 10px;
+  }
+
+  grid-template-areas:
+    "one two"
+    "three four"
+    "five six"
+    "seven eight";
+}
+.one {
+  grid-area: one;
+  padding: 0 50px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 30px;
+}
+.two {
+  grid-area: two;
+}
+.three {
+  grid-area: three;
+}
+.four {
+  grid-area: four;
+  padding: 0 50px;
+}
+.five {
+  grid-area: five;
+  padding: 0 50px;
+}
+.six {
+  grid-area: six;
+}
+
+.seven {
+  grid-area: seven;
+}
+
+.eight {
+  grid-area: eight;
+  padding: 0 50px;
+}

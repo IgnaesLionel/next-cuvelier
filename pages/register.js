@@ -1,129 +1,140 @@
-import React from "react";
 import Head from "next/head";
 import Link from "next/link";
-import { useState, useContext, useEffect, useRef } from "react";
-import { useRouter } from "next/router";
-import { Form, Button } from "react-bootstrap";
+import { useState, useContext, useEffect } from "react";
 import valid from "../utils/valid";
 import { DataContext } from "../store/GlobalState";
 import { postData } from "../utils/fetchData";
+import { useRouter } from "next/router";
 
 const Register = () => {
-  // Data from input
-  const [name, setName] = useState("");
-  const [lastname, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [controlPassword, setControlPassword] = useState("");
-  const nameInput = useRef(null);
-  const lastNameInput = useRef(null);
-  const emailInput = useRef(null);
-  const passwordInput = useRef(null);
-  const controlPasswordInput = useRef(null);
-  const dataToSend = { name, lastname, email, password, controlPassword };
+  const initialState = {
+    name: "",
+    lastname: "",
+    email: "",
+    password: "",
+    cf_password: "",
+  };
+  const [userData, setUserData] = useState(initialState);
+  const { name, lastname, email, password, cf_password } = userData;
 
-  //context & actions reducers
   const { state, dispatch } = useContext(DataContext);
   const { auth } = state;
 
-  //Routing
   const router = useRouter();
-  useEffect(() => {
-    if (Object.keys(auth).length !== 0) router.push("/");
-  }, [auth]);
+
+  const handleChangeInput = (e) => {
+    const { name, value } = e.target;
+    setUserData({ ...userData, [name]: value });
+    dispatch({ type: "NOTIFY", payload: {} });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const errMsg = valid(name, lastname, email, password, controlPassword);
-    //error to notify -> Toast
+    const errMsg = valid(name, lastname, email, password, cf_password);
     if (errMsg) return dispatch({ type: "NOTIFY", payload: { error: errMsg } });
 
     dispatch({ type: "NOTIFY", payload: { loading: true } });
 
-    const res = await postData("auth/register", dataToSend);
+    const res = await postData("auth/register", userData);
+
     if (res.err)
-      //error to notify -> Toast
       return dispatch({ type: "NOTIFY", payload: { error: res.err } });
-    //success to notify -> Toast
+
     return dispatch({ type: "NOTIFY", payload: { success: res.msg } });
   };
 
+  useEffect(() => {
+    if (Object.keys(auth).length !== 0) router.push("/");
+  }, [auth]);
+
   return (
-    <div>
+    <div style={{ minHeight: "80vh" }}>
       <Head>
         <title>Page d{"'"}inscription</title>
       </Head>
-      <h1>test</h1>
-      <h1>S’inscrire</h1>
-      <Form
+
+      <form
         className="mx-auto my-4"
         style={{ maxWidth: "500px" }}
         onSubmit={handleSubmit}
       >
-        <Form.Group className="mb-3" controlId="formBasicName">
-          <Form.Label>Nom</Form.Label>
-          <Form.Control
+        <div className="form-group">
+          <label htmlFor="name">Nom</label>
+          <input
+            type="text"
+            className="form-control"
+            id="name"
+            name="name"
             value={name}
-            type="text"
-            ref={nameInput}
-            onChange={(e) => setName(nameInput.current.value)}
+            onChange={handleChangeInput}
           />
-          <Form.Text className="text-muted"></Form.Text>
-        </Form.Group>
+        </div>
 
-        <Form.Group className="mb-3" controlId="formBasicLastName">
-          <Form.Label>Prénom</Form.Label>
-          <Form.Control
+        <div className="form-group">
+          <label htmlFor="lastname">Prénom</label>
+          <input
             type="text"
+            className="form-control"
+            id="lastname"
+            name="lastname"
             value={lastname}
-            ref={lastNameInput}
-            onChange={(e) => setLastName(lastNameInput.current.value)}
+            onChange={handleChangeInput}
           />
-          <Form.Text className="text-muted" id="lastname"></Form.Text>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>E-mail</Form.Label>
-          <Form.Control
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="exampleInputEmail1">E-mail</label>
+          <input
             type="email"
-            ref={emailInput}
+            className="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            name="email"
             value={email}
-            onChange={(e) => setEmail(emailInput.current.value)}
+            onChange={handleChangeInput}
           />
-          <Form.Text className="text-muted">
+          <small id="emailHelp" className="form-text text-muted">
             Nous ne partagerons pas votre email, d{"'"}aucune manière.
-          </Form.Text>
-        </Form.Group>
+          </small>
+        </div>
 
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Mot de passe (6 caractères minimum)</Form.Label>
-          <Form.Control
+        <div className="form-group">
+          <label htmlFor="exampleInputPassword1">Mot de passe</label>
+          <input
             type="password"
+            className="form-control"
+            id="exampleInputPassword1"
+            name="password"
             value={password}
-            ref={passwordInput}
-            onChange={(e) => setPassword(passwordInput.current.value)}
+            onChange={handleChangeInput}
           />
-        </Form.Group>
+        </div>
 
-        <Form.Group className="mb-3" controlId="formBasicControlPassword">
-          <Form.Label>Confirmation du mot de passe</Form.Label>
-          <Form.Control
+        <div className="form-group">
+          <label htmlFor="exampleInputPassword2">
+            Confirmation du mot de passe
+          </label>
+          <input
             type="password"
-            value={controlPassword}
-            ref={controlPasswordInput}
-            onChange={(e) =>
-              setControlPassword(controlPasswordInput.current.value)
-            }
+            className="form-control"
+            id="exampleInputPassword2"
+            name="cf_password"
+            value={cf_password}
+            onChange={handleChangeInput}
           />
-        </Form.Group>
+        </div>
 
-        <Button variant="primary" type="submit">
+        <button type="submit" className="btn btn-dark w-100">
           Inscription
-        </Button>
-        <p> Vous avez déja un compte ?</p>
-        <Link href="/signin">
-          <a style={{ color: "crimson" }}>Connectez-vous</a>
-        </Link>
-      </Form>
+        </button>
+
+        <p className="my-2">
+          Vous avez déja un compte ?{" "}
+          <Link href="/signin">
+            <a style={{ color: "crimson" }}>Connectez-vous</a>
+          </Link>
+        </p>
+      </form>
     </div>
   );
 };

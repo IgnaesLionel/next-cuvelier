@@ -8,24 +8,29 @@ export const ACTIONS = {
   ADD_CATEGORIES: "ADD_CATEGORIES",
 };
 
-export const addToCart = (product, cart) => {
-  if (product.inStock === 0)
-    return {
-      type: "NOTIFY",
-      payload: { Erreur: "This product is out of stock." },
-    };
-
-  const check = cart.every((item) => {
+export const addToCart = (product, cart, number) => {
+  const checkId = cart.every((item) => {
+    // retour true si l'id des objets du panier son egale à l'id du produit
     return item._id !== product._id;
   });
 
-  if (!check)
+  if (product.inStock === 0)
     return {
       type: "NOTIFY",
-      payload: { Erreur: "The product has been added to cart." },
+      payload: { error: "Ce produit n'est plus en stock." },
     };
 
-  return { type: "ADD_CART", payload: [...cart, { ...product, quantity: 1 }] };
+  if (!checkId)
+    //si pas trouvé de doublon->
+    return {
+      type: "NOTIFY",
+      payload: { error: "Ce produit à été ajoué au panier." },
+    };
+
+  return {
+    type: "ADD_CART",
+    payload: [...cart, { ...product, quantity: number }],
+  };
 };
 
 export const decrease = (data, id) => {
@@ -41,6 +46,15 @@ export const increase = (data, id) => {
   const newData = [...data];
   newData.forEach((item) => {
     if (item._id === id) item.quantity += 1;
+  });
+
+  return { type: "ADD_CART", payload: newData };
+};
+
+export const refreshNumber = (data, id, number) => {
+  const newData = [...data];
+  newData.forEach((item) => {
+    if (item._id === id) item.quantity = number;
   });
 
   return { type: "ADD_CART", payload: newData };

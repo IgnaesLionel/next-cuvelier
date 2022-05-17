@@ -1,0 +1,12 @@
+.box {
+  border: 2px solid;
+  border-color: grey;
+}
+
+.title {
+  color: black;
+}
+
+.title:hover {
+  color: red;
+}

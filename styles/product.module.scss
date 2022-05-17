@@ -1,0 +1,28 @@
+@import "../styles/abstracts/variables";
+@import "../styles/abstracts/mixins";
+.products {
+  display: flex;
+  /*   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); */
+  justify-content: space-evenly;
+  width: 80%;
+  flex-wrap: wrap;
+  margin: 80px 50px;
+  min-height: 100vh;
+
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* --------- Detail Product ----------- */
+.detail_page .img-thumbnail.active {
+  padding: 2px;
+}
+
+.containerPage {
+  background-color: $color-primary-light;
+  border-bottom: 10px solid $color-primary;
+}
+
+.loadMoreBtn {
+  background-color: red;
+}

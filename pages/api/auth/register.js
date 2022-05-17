@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 
 connectDB();
 
-const handleRequest = async (req, res) => {
+export default async (req, res) => {
   switch (req.method) {
     case "POST":
       await register(req, res);
@@ -15,33 +15,28 @@ const handleRequest = async (req, res) => {
 
 const register = async (req, res) => {
   try {
-    const { name, lastname, email, password, controlPassword } = req.body;
+    const { name, lastname, email, password, cf_password } = req.body;
 
-    // check si il y'as une erreur
-    const errMsg = valid(name, lastname, email, password, controlPassword);
+    const errMsg = valid(name, lastname, email, password, cf_password);
     if (errMsg) return res.status(400).json({ err: errMsg });
 
-    // Confirmation !Doublon
     const user = await Users.findOne({ email });
     if (user)
-      return res.status(400).json({ err: "cette email est déja enregistré." });
+      return res.status(400).json({ err: "This email already exists." });
 
     const passwordHash = await bcrypt.hash(password, 12);
 
-    // Envoye d'un nouvelle utilisateur à la BDD
     const newUser = new Users({
       name,
       lastname,
       email,
       password: passwordHash,
-      controlPassword,
+      cf_password,
     });
 
     await newUser.save();
-    res.json({ msg: "Enregistrement réussi !" });
+    res.json({ msg: "Register Success!" });
   } catch (err) {
     return res.status(500).json({ err: err.message });
   }
 };
-
-export default handleRequest;

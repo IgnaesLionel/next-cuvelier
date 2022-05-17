@@ -1,7 +1,5 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../styles/globals.css";
+import "../styles/globals.scss";
 import Layout from "../components/Layout";
-
 import { DataProvider } from "../store/GlobalState";
 
 function MyApp({ Component, pageProps }) {

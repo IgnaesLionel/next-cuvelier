@@ -8,7 +8,7 @@ import {
 
 connectDB();
 
-const handleLogin = async (req, res) => {
+export default async (req, res) => {
   switch (req.method) {
     case "POST":
       await login(req, res);
@@ -22,22 +22,20 @@ const login = async (req, res) => {
 
     const user = await Users.findOne({ email });
     if (!user)
-      return res.status(400).json({ err: "Cette utilisateur n'existe pas." });
+      return res.status(400).json({ err: "This user does not exist." });
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch)
-      return res.status(400).json({ err: "Mot de passe incorrect." });
+    if (!isMatch) return res.status(400).json({ err: "Incorrect password." });
 
     const access_token = createAccessToken({ id: user._id });
     const refresh_token = createRefreshToken({ id: user._id });
 
     res.json({
-      msg: "Login Success!",
+      msg: "Connection réussi!",
       refresh_token,
       access_token,
       user: {
         name: user.name,
-        lastname: user.lastname,
         email: user.email,
         role: user.role,
         avatar: user.avatar,
@@ -48,5 +46,3 @@ const login = async (req, res) => {
     return res.status(500).json({ err: err.message });
   }
 };
-
-export default handleLogin;
